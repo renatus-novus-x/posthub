@@ -105,15 +105,8 @@ static void path_join2(char* out, size_t cap, const char* a, const char* b) {
 }
 
 #if defined(_WIN32)
-static void get_host(char* out, size_t cap) {
-  DWORD n = (DWORD)cap;
-  if (!GetComputerNameA(out, &n)) { snprintf(out, cap, "HOST"); }
-}
 static unsigned long get_pidlike(void) { return (unsigned long)GetCurrentProcessId(); }
 #else
-static void get_host(char* out, size_t cap) {
-  if (gethostname(out, cap) != 0 || !out[0]) snprintf(out, cap, "HOST");
-}
 static unsigned long get_pidlike(void) { return (unsigned long)getpid(); }
 #endif
 
@@ -326,7 +319,7 @@ static int recv_for_user(const char* root, const char* user) {
 static const char* basename_only(const char* s) {
   const char* p = s + strlen(s);
   while (p > s) {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__human68k__)
     if (p[-1] == '\\' || p[-1] == '/' || p[-1] == ':') break;
 #else
     if (p[-1] == '/' ) break;
