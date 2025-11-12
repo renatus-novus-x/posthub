@@ -39,7 +39,7 @@ posthub recv alice
 ```
 Messages in new/ are printed to stdout and moved to cur/ after reading.
 
-##Future Extensions
+## Future Extensions
 
 - Background receiver (polling or inotify/ReadDirectoryChangesW)
 - Hub relay for TCP multiplexing
