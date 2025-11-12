@@ -314,7 +314,7 @@ static int recv_for_user(const char* root, const char* user) {
 }
 #endif
 
-/* ---------- CLI ---------- */
+/* ---------- CLI helpers ---------- */
 
 static const char* basename_only(const char* s) {
   const char* p = s + strlen(s);
@@ -329,6 +329,71 @@ static const char* basename_only(const char* s) {
   return p;
 }
 
+/* Parse message argument from argv, emulating simple double-quote semantics.
+ * - If any '"' appears in argv[3..], the message is the text between the
+ *   first '"' and the last '"' across those arguments (quotes are removed).
+ * - Arguments after the closing quote are not included in the message.
+ * - If no '"' is found, argv[3] is used as the message.
+ * - next_index (if non-NULL) receives the index of the first argument after
+ *   the closing quote (or 4 if no quotes and argv[3] was used).
+ */
+static void parse_message(char* buf, size_t cap,
+                          int argc, char** argv,
+                          int* next_index) {
+  int i;
+  int start = 3;
+  int end = 3;
+  int found_quote = 0;
+  size_t n = 0;
+
+  if (cap == 0) return;
+  buf[0] = '\0';
+  if (next_index) *next_index = argc;
+  if (argc <= 3) return;
+
+  /* find first and last argument that contains a double quote */
+  for (i = 3; i < argc; ++i) {
+    const char* s = argv[i];
+    const char* q = strchr(s, "\""[0]);
+    if (q) {
+      if (!found_quote) {
+        start = i;
+        found_quote = 1;
+      }
+      end = i;
+    }
+  }
+
+  if (!found_quote) {
+    /* no quotes: treat argv[3] as the message */
+    strncpy(buf, argv[3], cap - 1);
+    buf[cap - 1] = '\0';
+    if (next_index) *next_index = (argc > 4) ? 4 : argc;
+    return;
+  }
+
+  /* build message from argv[start..end], stripping '"' and inserting spaces */
+  for (i = start; i <= end; ++i) {
+    const char* s = argv[i];
+    const char* p = s;
+    while (*p) {
+      if (*p != '"') {
+        if (n + 1 >= cap) { buf[n] = '\0'; goto done; }
+        buf[n++] = *p;
+      }
+      p++;
+    }
+    if (i < end) {
+      if (n + 1 >= cap) { buf[n] = '\0'; goto done; }
+      buf[n++] = ' ';
+    }
+  }
+  buf[n] = '\0';
+
+done:
+  if (next_index) *next_index = end + 1;
+}
+
 static void usage(const char* argv0) {
   const char* base = basename_only(argv0);
   fprintf(stderr,
@@ -338,6 +403,8 @@ static void usage(const char* argv0) {
     "  %s recv <user>\n", base, base, base);
 }
 
+/* ---------- main ---------- */
+
 int main(int argc, char** argv) {
   const char* root = get_root();
   srand((unsigned)time(NULL) ^ (unsigned)clock());
@@ -346,13 +413,18 @@ int main(int argc, char** argv) {
 
   if (strcmp(argv[1], "send") == 0) {
     if (argc < 4) { usage(argv[0]); return 1; }
+
+    /* Parse message in a shell-independent way ("...") */
+    char msgbuf[LINELEN];
+    int next_index = argc; /* reserved for future options */
+    parse_message(msgbuf, sizeof(msgbuf), argc, argv, &next_index);
+    (void)next_index; /* currently unused */
+
     if (strcmp(argv[2], "all") == 0) {
-      const char* msg = argv[3];
-      return (send_to_all(root, msg) == 0) ? 0 : 2;
+      return (send_to_all(root, msgbuf) == 0) ? 0 : 2;
     } else {
       const char* user = argv[2];
-      const char* msg  = argv[3];
-      return (send_to_user(root, user, msg) == 0) ? 0 : 2;
+      return (send_to_user(root, user, msgbuf) == 0) ? 0 : 2;
     }
   } else if (strcmp(argv[1], "recv") == 0) {
     const char* user = argv[2];
