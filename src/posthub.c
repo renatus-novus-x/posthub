@@ -323,12 +323,26 @@ static int recv_for_user(const char* root, const char* user) {
 
 /* ---------- CLI ---------- */
 
+static const char* basename_only(const char* s) {
+  const char* p = s + strlen(s);
+  while (p > s) {
+#if defined(_WIN32)
+    if (p[-1] == '\\' || p[-1] == '/' || p[-1] == ':') break;
+#else
+    if (p[-1] == '/' ) break;
+#endif
+    p--;
+  }
+  return p;
+}
+
 static void usage(const char* argv0) {
+  const char* base = basename_only(argv0);
   fprintf(stderr,
     "Usage:\n"
     "  %s send all \"message\"\n"
     "  %s send <user> \"message\"\n"
-    "  %s recv <user>\n", argv0, argv0, argv0);
+    "  %s recv <user>\n", base, base, base);
 }
 
 int main(int argc, char** argv) {
