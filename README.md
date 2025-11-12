@@ -13,10 +13,12 @@ It allows multiple hosts sharing the same directory (via SMB, NFS, or HostFS) to
 
 ## Directory Structure
 
+```
 POSTHUB/
 users.txt
 alice/Maildir/{tmp,new,cur}
 bob/Maildir/{tmp,new,cur}
+```
 
 - `users.txt` lists one username per line.
 - Each user has a `maildir` with the standard subdirectories.
@@ -24,19 +26,21 @@ bob/Maildir/{tmp,new,cur}
 ## Usage
 
 ### Send a message to all users
-
+```
 posthub send all "hello!"
-
+```
 ### Send a direct message to one user
+```
 posthub send alice "meet at 18:00?"
-
+```
 ### Receive all pending messages for a user
-posthub.x recv alice
-
+```
+posthub recv alice
+```
 Messages in new/ are printed to stdout and moved to cur/ after reading.
 
 ##Future Extensions
 
-Background receiver (polling or inotify/ReadDirectoryChangesW)
-Hub relay for TCP multiplexing
+- Background receiver (polling or inotify/ReadDirectoryChangesW)
+- Hub relay for TCP multiplexing
 
