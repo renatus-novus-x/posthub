@@ -4,6 +4,17 @@
 [![macos](https://github.com/renatus-novus-x/posthub/workflows/macos/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Amacos)
 [![ubuntu](https://github.com/renatus-novus-x/posthub/workflows/ubuntu/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Aubuntu)
 
+<table>
+  <tr>
+    <td width="50%">
+      <img src="https://raw.githubusercontent.com/renatus-novus-x/posthub/main/images/x68k.gif" alt="x68k" title="x68k" width="100%">
+    </td>
+    <td width="50%">
+      <img src="https://raw.githubusercontent.com/renatus-novus-x/posthub/main/images/windows.png" alt="windows" title="windows" width="100%">
+    </td>
+  </tr>
+</table>
+
 # posthub — A Minimal Maildir-like Messenger for Shared Directories
 
 `posthub` is a lightweight, cross-platform(windows/macos/ubuntu/x68000) local messaging system inspired by the Maildir format.
