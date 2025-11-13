@@ -1,89 +1,48 @@
 ﻿[English](./README.md)
 
-[![windows](https://github.com/renatus-novus-x/iperf/workflows/windows/badge.svg)](https://github.com/renatus-novus-x/iperf/actions?query=workflow%3Awindows)
-[![macos](https://github.com/renatus-novus-x/iperf/workflows/macos/badge.svg)](https://github.com/renatus-novus-x/iperf/actions?query=workflow%3Amacos)
-[![ubuntu](https://github.com/renatus-novus-x/iperf/workflows/ubuntu/badge.svg)](https://github.com/renatus-novus-x/iperf/actions?query=workflow%3Aubuntu)
+[![windows](https://github.com/renatus-novus-x/posthub/workflows/windows/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Awindows)
+[![macos](https://github.com/renatus-novus-x/posthub/workflows/macos/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Amacos)
+[![ubuntu](https://github.com/renatus-novus-x/posthub/workflows/ubuntu/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Aubuntu)
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="https://raw.githubusercontent.com/renatus-novus-x/iperf/main/images/server.gif" alt="server" title="server" width="100%">
-    </td>
-    <td width="50%">
-      <img src="https://raw.githubusercontent.com/renatus-novus-x/iperf/main/images/client.gif" alt="client" title="client" width="100%">
-    </td>
-  </tr>
-</table>
+# posthub - 共有ディレクトリを用いた最小構成の Maildir 風メッセンジャー
 
-# iperf
-   最小限のシングルスレッドTCPスループットテスター（クライアント/サーバー）
-   クロスプラットフォーム: Windows / macOS / Linux / X68000
-   - サーバー: 受信して破棄し、1秒あたりのレートと合計レートを出力
-   - クライアント: 指定秒数で固定サイズのチャンクを送信し、1秒あたりのレートと合計レートを出力
+`posthub` は、Maildir形式に着想を得た、軽量でクロスプラットフォームなローカルメッセージングシステムです。SMB、NFS、HostFS経由で同一ディレクトリを共有する複数のホスト間で、短いメッセージを atomic に交換できます。
+
 ## Download
-- [iperf.exe (windows)](https://raw.githubusercontent.com/renatus-novus-x/iperf/main/bin/iperf.exe)
-- [iperf (macos)](https://raw.githubusercontent.com/renatus-novus-x/iperf/main/bin/iperf)
-- [iperf.x (x68000)](https://raw.githubusercontent.com/renatus-novus-x/iperf/main/bin/iperf.x)
+- [posthub.exe (windows)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.exe)
+- [posthub (macos)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub)
+- [posthub.x (X68000)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.x)
 
-## ワークフロー例 (LAN テスト)
-
-### 1. サーバー (受信側) を起動します
-
-**サーバーマシン** (Windows / Mac / Linux / X68000) で以下のコマンドを実行します:
-
-```bash
-./iperf s 5201
-```
-
-想定される出力:
+## ディレクトリ構造
 
 ```
-[server] listen on port 5201 ...
-[server] local=192.168.1.23:5201 remote=192.168.1.45:53422
-[server] 0-1s: 7​​52640 bytes 6.02 Mb/s (0.75 MB/s)
-[server] TOTAL: 7532800 bytes in 10.00s 6.02 Mb/s (0.75 MB/s)
+posthub/
+users.txt
+alice/maildir/{tmp,new,cur}
+bob/maildir/{tmp,new,cur}
 ```
 
----
+- `users.txt` 1 行につき 1 つのユーザー名をリストします。
+- 各ユーザーは `Maildir` 形式の標準サブディレクトリを持つ必要があります。
 
-### 2. クライアント (送信側) を起動します
+## 使い方
 
-**クライアントマシン** (例: Windows / Mac / Linux / X68000):
-
-```bash
-./iperf c <server-ip> 5201 10 64
+### すべてのユーザーにメッセージを送信する
 ```
-
-- `<server-ip>` : サーバーのIPアドレス (例: `192.168.1.23`)
-- `5201` : ポート番号 (サーバーのポート番号と一致している必要があります)
-- `10` : テスト実行時間 (秒)
-- `64` : 送信ごとのバッファサイズ (KB)
-
-例:
-
-```bash
-./iperf c 192.168.1.23 5201 10 64
+posthub send all "hello!"
 ```
-
-期待される出力:
-
+### 1人のユーザーにダイレクトメッセージを送信する
 ```
-[client] connect 192.168.1.23:5201 ...
-[client] seconds=10  buf=64KB  (single TCP stream, IPv4)
-[client] 0-1s: 654321 bytes  5.23 Mb/s (0.65 MB/s)
-[client] TOTAL: 6532100 bytes in 10.00s  5.23 Mb/s (0.65 MB/s)
+posthub send alice "meet at 18:00?"
 ```
+### ユーザーの保留中のメッセージをすべて受信する
+```
+posthub recv alice
+```
+Messages in new/ are printed to stdout and moved to cur/ after reading.
 
----
+## 将来の拡張
 
-### 3. スループットの確認
+- バックグラウンド レシーバー (ポーリングまたは inotify/ReadDirectoryChangesW)
+- TCP 多重化のための hub リレー
 
-サーバーとクライアントの両方で、1秒あたりおよび合計スループットが以下の単位で表示されます。
-- **Mb/秒** (メガビット/秒)
-- **MB/秒** (メガバイト/秒)
-
-これにより、単一のTCP接続を使用して2台のマシン間で簡単な**LAN速度テスト**を行うことができます。
-
-## Profile
-
-<img src="https://raw.githubusercontent.com/renatus-novus-x/iperf/main/images/profile.png" title="profile" />

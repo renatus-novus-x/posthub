@@ -1,4 +1,6 @@
-﻿[![windows](https://github.com/renatus-novus-x/posthub/workflows/windows/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Awindows)
+﻿[日本語](./README.ja.md)
+
+[![windows](https://github.com/renatus-novus-x/posthub/workflows/windows/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Awindows)
 [![macos](https://github.com/renatus-novus-x/posthub/workflows/macos/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Amacos)
 [![ubuntu](https://github.com/renatus-novus-x/posthub/workflows/ubuntu/badge.svg)](https://github.com/renatus-novus-x/posthub/actions?query=workflow%3Aubuntu)
 
@@ -9,19 +11,20 @@ It allows multiple hosts sharing the same directory (via SMB, NFS, or HostFS) to
 
 ## Download
 - [posthub.exe (windows)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.exe)
-- [posthub.x (x68000)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.x)
+- [posthub (macos)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub)
+- [posthub.x (X68000)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.x)
 
 ## Directory Structure
 
 ```
-POSTHUB/
+posthub/
 users.txt
-alice/Maildir/{tmp,new,cur}
-bob/Maildir/{tmp,new,cur}
+alice/maildir/{tmp,new,cur}
+bob/maildir/{tmp,new,cur}
 ```
 
 - `users.txt` lists one username per line.
-- Each user has a `maildir` with the standard subdirectories.
+- Each user has a `Maildir` with the standard subdirectories.
 
 ## Usage
 
