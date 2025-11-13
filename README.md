@@ -11,7 +11,7 @@ It allows multiple hosts sharing the same directory (via SMB, NFS, or HostFS) to
 
 ## Download
 - [posthub.exe (windows)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.exe)
-- [posthub (macos)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub)
+- [posthub-macos (macos)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub-macos)
 - [posthub.x (X68000)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.x)
 
 ## Directory Structure
