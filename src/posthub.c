@@ -10,7 +10,7 @@
  *   posthub.x recv <user>
  *
  * Layout (must exist beforehand):
- *   ROOT/ (default "./POSTHUB" or env POSTHUB_ROOT)
+ *   ROOT/ (default "./posthub" or env POSTHUB_ROOT)
  *     users.txt
  *     <user>/Maildir/tmp
  *                   /new
@@ -80,7 +80,7 @@ static int eq_icase(const char* a, const char* b) {
 
 static const char* get_root(void) {
   const char* e = getenv("POSTHUB_ROOT");
-  return (e && *e) ? e : "./POSTHUB";
+  return (e && *e) ? e : "./posthub";
 }
 
 /* join a/b/c using platform separator */
