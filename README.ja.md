@@ -26,6 +26,15 @@ bob/maildir/{tmp,new,cur}
 - `users.txt` 1 行につき 1 つのユーザー名をリストします。
 - 各ユーザーは `Maildir` 形式の標準サブディレクトリを持つ必要があります。
 
+## 初期化スクリプト posthub-init.{bat,sh} について
+
+`posthub-init.bat` あるいは `posthub-init.sh` は、サンプルユーザーと Maildir 風ディレクトリをまとめて作成するための初期化スクリプトです。
+
+- users.txt には alice と bob の 2 ユーザーが追加されます。
+- 各ユーザーの maildir 以下に tmp / new / cur が自動で作成されます。
+
+これらのスクリプトはあくまで最小構成のサンプルです。実際の運用では users.txt を編集したり、独自のユーザー用 maildir を追加して利用してください。
+
 ## 使い方
 
 ### すべてのユーザーにメッセージを送信する

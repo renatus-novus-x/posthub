@@ -27,6 +27,15 @@ bob/maildir/{tmp,new,cur}
 - `users.txt` lists one username per line.
 - Each user has a `Maildir` with the standard subdirectories.
 
+## Initialization with posthub-init.{bat,sh}
+
+The helper scripts `posthub-init.bat` or `posthub-init.sh` create a minimal example setup with two users and their Maildir-like directories.
+
+- users.txt is populated with two sample users: alice and bob.
+- Each user gets a maildir with the standard tmp / new / cur subdirectories.
+
+These scripts are only meant as a minimal example. In a real setup, you are expected to edit users.txt and add your own user maildir trees as needed.
+
 ## Usage
 
 ### Send a message to all users
