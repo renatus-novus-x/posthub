@@ -40,7 +40,7 @@ posthub send alice "meet at 18:00?"
 ```
 posthub recv alice
 ```
-Messages in new/ are printed to stdout and moved to cur/ after reading.
+new/ 内のメッセージは stdout に出力され、読み取られた後に cur/ に移動されます。
 
 ## 将来の拡張
 
