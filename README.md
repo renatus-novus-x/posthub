@@ -6,12 +6,13 @@
 
 # posthub — A Minimal Maildir-like Messenger for Shared Directories
 
-`posthub` is a lightweight, cross-platform local messaging system inspired by the Maildir format.
+`posthub` is a lightweight, cross-platform(windows/macos/ubuntu/x68000) local messaging system inspired by the Maildir format.
 It allows multiple hosts sharing the same directory (via SMB, NFS, or HostFS) to exchange short messages and atomically.
 
 ## Download
 - [posthub.exe (windows)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.exe)
 - [posthub-macos (macos)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub-macos)
+- [posthub-ubuntu (ubuntu)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub-ubuntu)
 - [posthub.x (X68000)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.x)
 
 ## Directory Structure

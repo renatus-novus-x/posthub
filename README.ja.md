@@ -6,11 +6,12 @@
 
 # posthub - 共有ディレクトリを用いた最小構成の Maildir 風メッセンジャー
 
-`posthub` は、Maildir形式に着想を得た、軽量でクロスプラットフォームなローカルメッセージングシステムです。SMB、NFS、HostFS経由で同一ディレクトリを共有する複数のホスト間で、短いメッセージを atomic に交換できます。
+`posthub` は、Maildir形式に着想を得た、軽量でクロスプラットフォーム(windows/macos/ubuntu/x68000)なローカルメッセージングシステムです。SMB、NFS、HostFS経由で同一ディレクトリを共有する複数のホスト間で、短いメッセージを atomic に交換できます。
 
 ## Download
 - [posthub.exe (windows)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.exe)
 - [posthub-macos (macos)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub-macos)
+- [posthub-ubuntu (ubuntu)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub-ubuntu)
 - [posthub.x (X68000)](https://raw.githubusercontent.com/renatus-novus-x/posthub/main/bin/posthub.x)
 
 ## ディレクトリ構造
